@@ -6,7 +6,7 @@ class View(ft.UserControl):
         super().__init__()
         # page stuff
         self._page = page
-        self._page.title = "TdP  - Esame del 29 Giugno 2026 - B"
+        self._page.title = "TdP - ChinookGiroDelMondo"
         self._page.horizontal_alignment = 'CENTER'
         self._page.theme_mode = ft.ThemeMode.LIGHT
         # controller (it is not initialized. Must be initialized in the main, after the controller is created)
@@ -17,35 +17,43 @@ class View(ft.UserControl):
 
     def load_interface(self):
         # title
-        self._title = ft.Text("TdP  - Esame del 29 Giugno 2026 - B", color="blue", size=24)
+        self._title = ft.Text("TdP - ChinookGiroDelMondo", color="blue", size=24)
         self._page.controls.append(self._title)
 
+        # ---------- PUNTO 1 ----------
+        self._ddGenere = ft.Dropdown(label="Genere")
+        self._txtInS = ft.TextField(label="Soglia artisti S")
         self._btnCreaGrafo = ft.ElevatedButton(text="Crea grafo",
                                                on_click=self._controller.handleCreaGrafo)
         self._btnStampaInfo = ft.ElevatedButton(text="Stampa Info",
                                                 on_click=self._controller.handleStampaInfo)
 
-
-        row1 = ft.Row([ft.Container(self._btnCreaGrafo, width=250),
-                                    ft.Container(self._btnStampaInfo, width=250)],
+        row1 = ft.Row([ft.Container(self._ddGenere, width=250),
+                       ft.Container(self._txtInS, width=150),
+                       ft.Container(self._btnCreaGrafo, width=150),
+                       ft.Container(self._btnStampaInfo, width=150)],
                       alignment=ft.MainAxisAlignment.CENTER)
         self._page.controls.append(row1)
 
+        # ---------- PUNTO 2 ----------
+        self._ddPaese = ft.Dropdown(label="Paese di partenza")
+        self._txtInL = ft.TextField(label="L (paesi nel tour)")
+        self._btnTour = ft.ElevatedButton(text="Trova tour",
+                                          on_click=self._controller.handleTour)
 
-        self._ddAlbum = ft.Dropdown(label="Album")
-        self._txtInN = ft.TextField(label="Numero di brani")
-        self._btnSelezione = ft.ElevatedButton(text="Trova selezione album",
-                                              on_click=self._controller.handleSelezione)
-
-        row2 = ft.Row([ft.Container(self._ddAlbum, width=125),
-                       ft.Container(self._txtInN, width=125),
-                       ft.Container(self._btnSelezione, width=250)],
+        row2 = ft.Row([ft.Container(self._ddPaese, width=250),
+                       ft.Container(self._txtInL, width=150),
+                       ft.Container(self._btnTour, width=150)],
                       alignment=ft.MainAxisAlignment.CENTER)
         self._page.controls.append(row2)
 
         # List View where the reply is printed
         self._txt_result = ft.ListView(expand=1, spacing=10, padding=20, auto_scroll=True)
         self._page.controls.append(self._txt_result)
+
+        # riempio i generi all'avvio
+        self._controller.fillDDGeneri()
+
         self._page.update()
 
     @property
